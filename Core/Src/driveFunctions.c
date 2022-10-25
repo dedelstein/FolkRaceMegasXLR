@@ -1,7 +1,7 @@
 #include <math.h>
 #include <stdbool.h>
 
-#define VEHICLE_WIDTH .15 // Width of current model
+#define WIDTH .15 // Width of current model
 #define MAGICNUMBER 1 // There are several factors such as wheel slippage and inertia that can collapse to a constant
 #define MAXSPEED 100 // TBD experimentally
 
@@ -40,7 +40,7 @@ void Go(int *moveVector, int currSpeed) {
 
 	  //int steerVect[2] = { moveVector[0], moveVector[1] - currSpeed }; // target vector
 
-	  float speedRatio = fabs(turnAngle) * 2 * VEHICLE_WIDTH * fabs(sin(turnAngle/2)) * MAGICNUMBER; // this is maybe very wrong
+	  float speedRatio = fabs(turnAngle) * 2 * WIDTH * fabs(sin(turnAngle/2)) * MAGICNUMBER; // this is maybe very wrong
 
 	  // This is maybe stupid, setting speed based on target vector magnitude.
 	  // Should probably just always go to max functional speed
@@ -55,49 +55,3 @@ void Go(int *moveVector, int currSpeed) {
 	  MoveLeftWheel(dirL, driveSpeedL);
 	  MoveRightWheel(dirR, driveSpeedR);
 }
-/// <param> dists - int ptr -- [L_Dist, F_Dist, R_Dist] </param>
-  /// units in mm
-  /// wall - wall dist: 1000-1200 mm
-  void GoDist(int *dists) {
-	  int l_dist = dists[0];
-	  int r_dist = dists[2];
-	  int f_dist = dists[1];
-	  float speed_ratio;
-	  int allowable_range = 100; // 100 mm
-
-	  // dist_max_optimum_outside = 450 - VEHICLE_WIDTH/2;  dist_max_optimum_inside = 350 - VEHICLE_WIDTH/2;
-	  // dist__min_optimum_outside = 400- VEHICLE_WIDTH; dist_min_optimum_inside = 300 - VEHICLE_WIDTH;
-
-	  // go left
-	  if (abs(r_dist - l_dist) > allowable_range)
-	  {
-		  speed_ratio = .8;
-		  if (l_dist < r_dist) // go right
-		  {
-			  MoveLeftWheel(FWD, MAXSPEED);
-			  MoveRightWheel(FWD, MAXPEED * speed_ratio);
-		  }
-		  else // go left
-		  {
-			  MoveLeftWheel(FWD, MAXSPEED * speed_ratio);
-			  MoveRightWheel(FWD, MAXPEED);
-		  }
-	  }
-	  else if (l_dist < (50 - 15 - VEHICLE_WIDTH - 5))
-	  {
-		  speed_ratio = .25;
-		  MoveLeftWheel(FWD, MAXSPEED);
-		  MoveRightWheel(FWD, MAXPEED * speed_ratio);
-	  }
-	  else if (r_dist < (50 - 15 - VEHICLE_WIDTH - 5))
-	  {
-		  speed_ratio = .25;
-		  MoveLeftWheel(FWD, MAXSPEED * speed_ratio);
-		  MoveRightWheel(FWD, MAXPEED);
-	  }
-	  else
-	  {
-		  MoveLeftWheel(FWD, MAXSPEED);
-		  MoveRightWheel(FWD, MAXPEED);
-	  }
-  }
