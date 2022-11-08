@@ -60,7 +60,14 @@ Core/Src/system_stm32f0xx.c \
 Core/Src/gpio.c \
 Core/Src/tim.c \
 Core/Src/usart.c \
-Core/Src/i2c.c
+Core/Src/app.c \
+Core/Src/i2c.c \
+Core/Src/motors.c \
+Core/Src/stm_log.c \
+Lib/vl53l1x-stm32-hal-driver/VL53L1X/VL53L1X.c \
+Lib/vl53l1x-stm32-hal-driver/VL53L1X/Src/VL53L1X_api.c \
+Lib/vl53l1x-stm32-hal-driver/VL53L1X/Src/vl53l1_platform.c \
+Lib/vl53l1x-stm32-hal-driver/VL53L1X/Src/VL53L1X_calibration.c
 
 # ASM sources
 ASM_SOURCES =  \
@@ -121,10 +128,9 @@ C_INCLUDES =  \
 -IDrivers/STM32F0xx_HAL_Driver/Inc \
 -IDrivers/STM32F0xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F0xx/Include \
--IDrivers/CMSIS/Include
--ILib/VL53L1X/Inc
--ILib/VL53L1X
-
+-IDrivers/CMSIS/Include \
+-ILib/vl53l1x-stm32-hal-driver/VL53L1X \
+-ILib/vl53l1x-stm32-hal-driver/VL53L1X/Inc \
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 

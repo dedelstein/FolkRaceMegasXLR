@@ -27,6 +27,7 @@
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
 #include "string.h"
+#include "app.h" 
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -92,42 +93,20 @@ int main(void)
   MX_TIM3_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-
-	  VL53L1X sensor;
-          HAL_TIM_Base_Start(&htim3);                                                                                                                                        
-          HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);                                                                                                                          
-	  TOF_InitStruct(&sensor, &hi2c1, 0x52, MOTOR_DIR_GPIO_Port, MOTO_DIR_Pin);
-	  TOF_BootSensor(&sensor);
-	  uint16_t distance = TOF_GetDistance(&sensor);
+  app_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  // almost printf
-	  char str_buf [200];
-	  uint8_t buf_len = snprintf(str_buf, 200, "Hello world! %d", 10);
-	  HAL_UART_Transmit(&huart2, (uint8_t*)str_buf, buf_len, 100);
-          // Set pwm width
-	  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 75);
-	  // Set motor direction
-	  HAL_GPIO_WritePin(MOTOR_DIR_GPIO_Port, MOTOR_DIR_Pin, 1);
-	  HAL_Delay(500);
-
-
-          // Set pwm width
-	  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 150);
-	  // Set motor direction
-	  HAL_GPIO_WritePin(MOTOR_DIR_GPIO_Port, MOTOR_DIR_Pin, 0);
-	  HAL_Delay(500);
+    app_task();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
-
 /**
   * @brief System Clock Configuration
   * @retval None
